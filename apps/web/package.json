@@ -1,0 +1,17 @@
+{
+  "name": "@ebay-clone/web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ebay-clone/nestjs-libs": "*",
+    "@ebay-clone/ui": "*",
+    "@radix-ui/react-select": "^2.1.2"
+  }
+}
