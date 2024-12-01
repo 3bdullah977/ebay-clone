@@ -24,8 +24,9 @@ const fetchWrapper = async <T>(
     "Content-Type": "application/json",
   };
 
+  let response;
   try {
-    const response = await fetch(finalUrl, {
+    response = await fetch(finalUrl, {
       ...restOptions,
       headers: { ...defaultHeaders, ...headers },
     });
@@ -49,7 +50,7 @@ const fetchWrapper = async <T>(
     return { status: response.status, data };
   } catch (error: any) {
     console.error("Fetch error:", error.message || error);
-    throw error;
+    return { status: response?.status, data: {} };
   }
 };
 

@@ -32,6 +32,12 @@ export class AuthController {
     return this.authService.refreshToken(req.user.userId, req.user.username);
   }
 
+  @Post('logout')
+  @UseGuards(JwtAuthGuard)
+  logout(@Req() req) {
+    return this.authService.logout(req.user.userId);
+  }
+
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get('testJwt')

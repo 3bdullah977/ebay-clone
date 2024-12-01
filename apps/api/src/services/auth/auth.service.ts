@@ -39,7 +39,7 @@ export class AuthService {
     const { accessToken, refreshToken } = await this.generateTokens(userId);
 
     const hashedRT = await hash(refreshToken);
-    // await this.usersService.updateHashedRefreshToken(userId, hashedRT);
+    await this.usersService.updateHashedRefreshToken(userId, hashedRT);
 
     return {
       id: userId,
@@ -49,7 +49,6 @@ export class AuthService {
     };
   }
 
-  // TODO:
   async generateTokens(userId: number) {
     const payload: JwtPayload = { sub: userId };
     const [accessToken, refreshToken] = await Promise.all([
@@ -63,9 +62,17 @@ export class AuthService {
     };
   }
 
-  async validateJwtUser(userId: number) {
+  async validateJwtUser(userId: number, refreshToken: string) {
     const user = await this.usersService.findOne(userId);
     if (!user) throw new UnauthorizedException('User not found!');
+
+    const refreshTokenMatched = await verify(
+      user.hashedRefreshToken,
+      refreshToken,
+    );
+    if (!refreshTokenMatched)
+      throw new UnauthorizedException('Invalid refresh token!');
+
     const currentUser = { id: user.userId, role: user.role };
     return currentUser;
   }
@@ -73,11 +80,18 @@ export class AuthService {
   async refreshToken(userId: number, name: string) {
     const { accessToken, refreshToken } = await this.generateTokens(userId);
 
+    const hashedRT = await hash(refreshToken);
+    await this.usersService.updateHashedRefreshToken(userId, hashedRT);
+
     return {
       id: userId,
       name: name,
       accessToken,
       refreshToken,
     };
+  }
+
+  async logout(userId: number) {
+    return await this.usersService.updateHashedRefreshToken(userId, 'null');
   }
 }

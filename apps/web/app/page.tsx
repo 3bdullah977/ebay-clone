@@ -3,6 +3,7 @@ import { Button } from "@ebay-clone/ui/button";
 import styles from "./page.module.css";
 import { authFetch } from "@/lib/auth-fetch";
 import { BACKEND_URL } from "@/lib/constants";
+import { redirect } from "next/navigation";
 
 type Props = Omit<ImageProps, "src"> & {
   srcLight: string;
@@ -20,10 +21,11 @@ const ThemeImage = (props: Props) => {
   );
 };
 
-export default function Home() {
-  authFetch(`${BACKEND_URL}/auth/refresh-token`, {
+export default async function Home() {
+  const res = await authFetch(`${BACKEND_URL}/auth/refresh-token`, {
     method: "POST",
   });
+  if (res.status === 401) redirect("/auth/signin");
   return (
     <div className={styles.page}>
       <main className={styles.main}>

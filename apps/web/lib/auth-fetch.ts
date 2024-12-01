@@ -3,7 +3,7 @@ import fetchWrapper from "./custom-fetch";
 import { getSession } from "./session";
 
 interface FetchOptions extends RequestInit {
-  headers: Record<string, string>;
+  headers?: Record<string, string>;
 }
 
 export async function authFetch(url: string | URL, options: FetchOptions) {
@@ -15,6 +15,7 @@ export async function authFetch(url: string | URL, options: FetchOptions) {
   };
 
   let res = await fetchWrapper(url, options);
+  console.log("res", res);
   if (res.status === 401) {
     if (!session?.refreshToken) throw new Error("Refresh token not found!");
 
