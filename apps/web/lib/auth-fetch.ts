@@ -17,7 +17,7 @@ export async function authFetch(url: string | URL, options: FetchOptions) {
   let res = await fetchWrapper(url, options);
   console.log("res", res);
   if (res.status === 401) {
-    if (!session?.refreshToken) throw new Error("Refresh token not found!");
+    if (!session?.refreshToken) return { data: {}, status: 401 };
 
     const newAccessToken = await refreshToken(session.refreshToken);
     if (newAccessToken) {
