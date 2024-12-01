@@ -10,7 +10,12 @@ export class UsersService {
   async create(dto: CreateUserDto) {
     const { password } = dto;
     const passwordHash = await hash(password);
-    return await db.insert(users).values({ ...dto, passwordHash });
+    await db.insert(users).values({
+      ...dto,
+      passwordHash,
+      hashedRefreshToken: "null",
+      profileImageUrl: "null",
+    });
   }
 
   async findByEmail(email: string) {
@@ -19,5 +24,14 @@ export class UsersService {
 
   async findOne(id: number) {
     return await db.query.users.findFirst({ where: eq(users.userId, id) });
+  }
+
+  async updateHashedRefreshToken(userId: number, hashedRT: string) {
+    await db
+      .update(users)
+      .set({
+        hashedRefreshToken: hashedRT,
+      })
+      .where(eq(users.userId, userId));
   }
 }

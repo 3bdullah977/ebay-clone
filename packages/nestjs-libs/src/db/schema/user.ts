@@ -7,7 +7,8 @@ export const users = pgTable("users", {
   email: varchar("email", { length: 255 }).notNull().unique(),
   passwordHash: varchar("password_hash", { length: 255 }).notNull(),
   role: text("role", { enum: ["seller", "buyer"] }).notNull(),
-  profileImageUrl: text("profile_image_url"),
+  profileImageUrl: text("profile_image_url").notNull(),
+  hashedRefreshToken: text("hashed_refresh_token").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).default(
     sql`CURRENT_TIMESTAMP`
   ),

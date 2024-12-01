@@ -15,6 +15,20 @@
       "when": 1732828023579,
       "tag": "0001_right_susan_delgado",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1733053534935,
+      "tag": "0002_shocking_nightcrawler",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1733054620041,
+      "tag": "0003_deep_arclight",
+      "breakpoints": true
     }
   ]
 }
