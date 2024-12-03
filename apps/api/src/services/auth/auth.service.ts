@@ -29,7 +29,7 @@ export class AuthService {
   async validateLocalUser(email: string, password: string) {
     const user = await this.usersService.findByEmail(email);
     if (!user) throw new UnauthorizedException('User not found!');
-    const match = verify(user.passwordHash, password);
+    const match = await verify(user.passwordHash, password);
     if (!match) throw new UnauthorizedException('Invalid credentials!');
 
     return { userId: user.userId, username: user.username, role: user.role };
@@ -62,7 +62,15 @@ export class AuthService {
     };
   }
 
-  async validateJwtUser(userId: number, refreshToken: string) {
+  async validateJwtUser(userId: number) {
+    const user = await this.usersService.findOne(userId);
+    if (!user) throw new UnauthorizedException('User not found!');
+
+    const currentUser = { id: user.userId, role: user.role };
+    return currentUser;
+  }
+
+  async validateRefreshToken(userId: number, refreshToken: string) {
     const user = await this.usersService.findOne(userId);
     if (!user) throw new UnauthorizedException('User not found!');
 
@@ -73,7 +81,7 @@ export class AuthService {
     if (!refreshTokenMatched)
       throw new UnauthorizedException('Invalid refresh token!');
 
-    const currentUser = { id: user.userId, role: user.role };
+    const currentUser = { id: user.userId };
     return currentUser;
   }
 
