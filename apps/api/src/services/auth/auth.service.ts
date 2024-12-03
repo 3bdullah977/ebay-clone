@@ -74,6 +74,9 @@ export class AuthService {
     const user = await this.usersService.findOne(userId);
     if (!user) throw new UnauthorizedException('User not found!');
 
+    if (!refreshToken)
+      throw new UnauthorizedException('Invalid refresh token!');
+
     const refreshTokenMatched = await verify(
       user.hashedRefreshToken,
       refreshToken,
