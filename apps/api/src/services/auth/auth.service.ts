@@ -35,7 +35,7 @@ export class AuthService {
     return { userId: user.userId, username: user.username, role: user.role };
   }
 
-  async login(userId: number, name: string) {
+  async login(userId: number, name: string, role: 'buyer' | 'seller') {
     const { accessToken, refreshToken } = await this.generateTokens(userId);
 
     const hashedRT = await hash(refreshToken);
@@ -44,6 +44,7 @@ export class AuthService {
     return {
       id: userId,
       name: name,
+      role,
       accessToken,
       refreshToken,
     };
@@ -66,7 +67,11 @@ export class AuthService {
     const user = await this.usersService.findOne(userId);
     if (!user) throw new UnauthorizedException('User not found!');
 
-    const currentUser = { id: user.userId, role: user.role };
+    const currentUser = {
+      userId: user.userId,
+      username: user.username,
+      role: user.role,
+    };
     return currentUser;
   }
 
@@ -84,7 +89,11 @@ export class AuthService {
     if (!refreshTokenMatched)
       throw new UnauthorizedException('Invalid refresh token!');
 
-    const currentUser = { id: user.userId };
+    const currentUser = {
+      userId: user.userId,
+      username: user.username,
+      role: user.role,
+    };
     return currentUser;
   }
 

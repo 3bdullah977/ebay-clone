@@ -34,6 +34,7 @@ export class AuthController {
     const res = await this.authService.login(
       req.user.userId,
       req.user.username,
+      req.user.role,
     );
     return res;
   }
