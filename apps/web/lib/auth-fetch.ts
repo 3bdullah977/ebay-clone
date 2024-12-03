@@ -1,29 +1,40 @@
 import { refreshToken } from "./auth";
-import fetchWrapper from "./custom-fetch";
+import { fetchWrapper } from "./custom-fetch";
 import { getSession } from "./session";
 
 interface FetchOptions extends RequestInit {
   headers?: Record<string, string>;
 }
 
-export async function authFetch(url: string | URL, options: FetchOptions) {
+export async function authFetch(url: string | URL, options: FetchOptions = {}) {
   const session = await getSession();
-
-  options.headers = {
-    ...options.headers,
-    Authorization: `Bearer ${session?.accessToken}`,
+  const authOptions: FetchOptions = {
+    ...options,
+    headers: {
+      ...options.headers,
+      ...(session?.accessToken
+        ? { Authorization: `Bearer ${session.accessToken}` }
+        : {}),
+    },
   };
 
-  let res = await fetchWrapper(url, options);
-  console.log("res", res);
-  if (res.status === 401) {
-    if (!session?.refreshToken) return { data: {}, status: 401 };
+  let res = await fetchWrapper(url, authOptions);
 
+  // Handle token refresh for 401 errors
+  if (res.status === 401 && session?.refreshToken) {
     const newAccessToken = await refreshToken(session.refreshToken);
+    console.log("access", newAccessToken);
+
     if (newAccessToken) {
-      options.headers.Authorization = `Bearer ${newAccessToken}`;
-      res = await fetchWrapper(url, options);
+      authOptions.headers = {
+        ...authOptions.headers,
+        Authorization: `Bearer ${newAccessToken}`,
+      };
+
+      res = await fetchWrapper(url, authOptions);
+      console.log("from auth fetch", res);
     }
   }
+
   return res;
 }

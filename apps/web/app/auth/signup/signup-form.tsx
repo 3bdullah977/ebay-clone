@@ -43,14 +43,23 @@ export function SignupForm() {
   });
 
   async function onSubmit(data: Inputs) {
-    await signup(data);
-    console.log("Signup data:", data);
-    // router.push("/auth/signin");
+    const res = await signup(data);
+    if (res) {
+      if ("error" in res) {
+        form.setError("root", { message: res.error });
+      } else router.push("/auth/signin");
+    } else {
+      form.setError("root", { message: "Unknown error" });
+    }
+    console.log(form.formState.errors);
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full">
+        <div className="text-red-500 text-sm">
+          {form.formState.errors.root?.message}
+        </div>
         <FormField
           control={form.control}
           name="username"

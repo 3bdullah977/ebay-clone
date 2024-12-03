@@ -22,9 +22,10 @@ const ThemeImage = (props: Props) => {
 };
 
 export default async function Home() {
-  const res = await authFetch(`${BACKEND_URL}/auth/refresh-token`, {
-    method: "POST",
+  const res = await authFetch(`${BACKEND_URL}/auth/testJwt`, {
+    method: "GET",
   });
+  console.log("page", res);
   if (res.status === 401) redirect("/auth/signin");
   return (
     <div className={styles.page}>

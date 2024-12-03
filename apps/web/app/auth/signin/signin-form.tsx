@@ -32,13 +32,17 @@ export function SigninForm() {
   });
 
   async function onSubmit(data: LoginDto) {
-    await signin(data);
-    router.push("/");
+    const res = await signin(data);
+    if (res === "success") router.push("/");
+    else form.setError("root", { message: "Invalid credentials" });
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full">
+        <div className="text-red-500 text-sm">
+          {form.formState.errors.root?.message}
+        </div>
         <FormField
           control={form.control}
           name="email"
