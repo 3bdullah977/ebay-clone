@@ -2,7 +2,7 @@ import { BACKEND_URL } from "./constants";
 import { fetchWrapper } from "./custom-fetch";
 import { SelectUser } from "@ebay-clone/nestjs-libs/db/schema";
 import { CreateUserDto, LoginDto } from "@ebay-clone/nestjs-libs/dtos";
-import { createSession, updateTokens } from "./session";
+import { createSession } from "./session";
 
 const baseUrl = `${BACKEND_URL}/auth`;
 
@@ -40,6 +40,7 @@ export async function signin(input: LoginDto): Promise<"success" | "failed"> {
         user: {
           id: res.data.id,
           name: res.data.name,
+          role: res.data.role,
         },
         accessToken: res.data.accessToken,
         refreshToken: res.data.refreshToken,

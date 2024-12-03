@@ -4,3 +4,5 @@ export type FormState<T> =
       message?: string;
     }
   | undefined;
+
+export type Role = "buyer" | "seller";
