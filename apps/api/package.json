@@ -21,9 +21,11 @@
   },
   "dependencies": {
     "@ebay-clone/nestjs-libs": "*",
+    "@fastify/static": "^7.0.4",
     "@nestjs/config": "^3.3.0",
     "@nestjs/jwt": "^10.2.0",
     "@nestjs/passport": "^10.0.3",
+    "@nestjs/platform-fastify": "^10.4.13",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0"
