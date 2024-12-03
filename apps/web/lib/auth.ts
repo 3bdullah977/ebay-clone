@@ -38,15 +38,14 @@ export async function signin(input: LoginDto): Promise<"success" | "failed"> {
     if (res.status === 200 && "data" in res) {
       await createSession({
         user: {
-          id: res.data.userId,
-          name: res.data.username,
+          id: res.data.id,
+          name: res.data.name,
         },
         accessToken: res.data.accessToken,
         refreshToken: res.data.refreshToken,
       });
       return "success";
     }
-    console.log("res", res);
     return "failed";
   } catch (error) {
     console.error(error);
@@ -64,7 +63,6 @@ export async function refreshToken(oldRefreshToken: string) {
     });
     if ("data" in res) {
       const { accessToken, refreshToken } = res.data;
-      console.log("refresh token body", res.data);
 
       try {
         await fetch("http://localhost:3000/api/auth/update", {

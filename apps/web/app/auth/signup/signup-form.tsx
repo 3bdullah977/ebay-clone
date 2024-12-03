@@ -51,7 +51,6 @@ export function SignupForm() {
     } else {
       form.setError("root", { message: "Unknown error" });
     }
-    console.log(form.formState.errors);
   }
 
   return (

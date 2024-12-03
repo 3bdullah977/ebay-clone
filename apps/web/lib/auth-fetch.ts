@@ -23,7 +23,6 @@ export async function authFetch(url: string | URL, options: FetchOptions = {}) {
   // Handle token refresh for 401 errors
   if (res.status === 401 && session?.refreshToken) {
     const newAccessToken = await refreshToken(session.refreshToken);
-    console.log("access", newAccessToken);
 
     if (newAccessToken) {
       authOptions.headers = {
@@ -32,7 +31,6 @@ export async function authFetch(url: string | URL, options: FetchOptions = {}) {
       };
 
       res = await fetchWrapper(url, authOptions);
-      console.log("from auth fetch", res);
     }
   }
 
