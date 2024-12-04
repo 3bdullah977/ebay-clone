@@ -12,6 +12,7 @@ import { users } from "./user";
 import { InferSelectModel, relations, sql } from "drizzle-orm";
 import { carts } from "./cart";
 import { transactions } from "./transaction";
+import { bids } from "./bid";
 
 export const products = pgTable(
   "products",
@@ -53,6 +54,7 @@ export const productsRelations = relations(products, ({ one, many }) => ({
   }),
   carts: many(carts),
   transactions: many(transactions),
+  bids: many(bids),
 }));
 
 export type SelectProduct = InferSelectModel<typeof products>;
