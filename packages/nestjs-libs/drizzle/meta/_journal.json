@@ -29,6 +29,20 @@
       "when": 1733054620041,
       "tag": "0003_deep_arclight",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1733334281314,
+      "tag": "0004_opposite_talon",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1733334496384,
+      "tag": "0005_productive_the_phantom",
+      "breakpoints": true
     }
   ]
 }

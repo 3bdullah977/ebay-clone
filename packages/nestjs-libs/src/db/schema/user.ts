@@ -1,5 +1,11 @@
 import { pgTable, serial, varchar, text, timestamp } from "drizzle-orm/pg-core";
-import { InferSelectModel, sql } from "drizzle-orm";
+import { InferSelectModel, relations, sql } from "drizzle-orm";
+import { products } from "./product";
+import { bids } from "./bid";
+import { carts } from "./cart";
+import { transactions } from "./transaction";
+import { notifications } from "./notification";
+import { ratings } from "./rating";
 
 export const users = pgTable("users", {
   userId: serial("user_id").primaryKey(),
@@ -16,5 +22,14 @@ export const users = pgTable("users", {
     .default(sql`CURRENT_TIMESTAMP`)
     .$onUpdate(() => new Date()),
 });
+
+export const usersRelations = relations(users, ({ many }) => ({
+  products: many(products),
+  bids: many(bids),
+  carts: many(carts),
+  transactions: many(transactions),
+  notifications: many(notifications),
+  ratings: many(ratings),
+}));
 
 export type SelectUser = InferSelectModel<typeof users>;
