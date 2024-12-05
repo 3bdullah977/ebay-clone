@@ -2,7 +2,7 @@ import { CreateProductDto, UpdateProductDto } from "@/dtos";
 import { Injectable } from "@nestjs/common";
 import { db } from "..";
 import { bids, products } from "../schema";
-import { eq, sql } from "drizzle-orm";
+import { and, eq, like, or, sql } from "drizzle-orm";
 
 // TODO: Add update, delete
 @Injectable()
@@ -69,6 +69,35 @@ export class ProductsService {
       with: {
         bids: { orderBy: sql`${bids.bidAmount} DESC` },
       },
+    });
+  }
+
+  async searchProducts(page: number, limit: number, query: string) {
+    const sanitizedQuery = `%${query}%`;
+    const offset = (page - 1) * limit;
+    return await db.query.products.findMany({
+      where: or(
+        like(products.title, sanitizedQuery),
+        like(products.description, sanitizedQuery)
+      ),
+      limit,
+      offset,
+      with: {
+        seller: {
+          columns: {
+            createdAt: false,
+            hashedRefreshToken: false,
+            role: false,
+            passwordHash: false,
+            updatedAt: false,
+          },
+        },
+      },
+      columns: {
+        updatedAt: false,
+        createdAt: false,
+      },
+      orderBy: sql`${products.createdAt} DESC`,
     });
   }
 

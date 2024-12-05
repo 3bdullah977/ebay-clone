@@ -1,6 +1,10 @@
 import { Roles } from '@/services/auth/decorators/roles.decorator';
 import { RolesGuard } from '@/services/auth/guards/roles/roles.guard';
-import { CreateProductDto, ProductsService } from '@ebay-clone/nestjs-libs';
+import {
+  CreateProductDto,
+  ProductsService,
+  SearchProductsDto,
+} from '@ebay-clone/nestjs-libs';
 import {
   Body,
   Controller,
@@ -47,5 +51,15 @@ export class ProductsController {
   getBySellerId(@Param('sellerId', ParseIntPipe) sellerId: number) {
     console.log(sellerId);
     return this.productsService.findBySellerId(sellerId);
+  }
+
+  @Roles('buyer')
+  @Post('search-products')
+  searchProducts(
+    @Query('page', ParseIntPipe) page: number,
+    @Query('limit', ParseIntPipe) limit: number,
+    @Body() dto: SearchProductsDto,
+  ) {
+    return this.productsService.searchProducts(page, limit, dto.query);
   }
 }
