@@ -45,6 +45,7 @@ export async function signin(input: LoginDto): Promise<"success" | "failed"> {
         accessToken: res.data.accessToken,
         refreshToken: res.data.refreshToken,
       });
+      console.log(res.data.accessToken);
       return "success";
     }
     return "failed";

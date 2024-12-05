@@ -1,5 +1,5 @@
 import { Module, Provider } from '@nestjs/common';
-import { UsersService } from '@ebay-clone/nestjs-libs';
+import { ProductsService, UsersService } from '@ebay-clone/nestjs-libs';
 import { AuthController } from './routes/auth.controller';
 import { AuthService } from './services/auth/auth.service';
 import { PassportModule } from '@nestjs/passport';
@@ -12,9 +12,11 @@ import refreshConfig from './services/auth/config/refresh.config';
 import { RefreshStrategy } from './services/auth/strategies/refresh-jwt.strategy';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './services/auth/guards/jwt-auth/jwt-auth.guard';
+import { ProductsController } from './routes/products.controller';
 
 const providers: Provider[] = [
   UsersService,
+  ProductsService,
   AuthService,
   LocalStrategy,
   JwtStrategy,
@@ -24,7 +26,7 @@ const providers: Provider[] = [
     useClass: JwtAuthGuard,
   },
 ];
-const controllers = [AuthController];
+const controllers = [AuthController, ProductsController];
 
 @Module({
   imports: [
