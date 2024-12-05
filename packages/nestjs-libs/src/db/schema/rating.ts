@@ -19,10 +19,12 @@ export const ratingsRelations = relations(ratings, ({ one }) => ({
   seller: one(users, {
     fields: [ratings.sellerId],
     references: [users.userId],
+    relationName: "seller_rating",
   }),
   buyer: one(users, {
     fields: [ratings.buyerId],
     references: [users.userId],
+    relationName: "buyer_rating",
   }),
 }));
 

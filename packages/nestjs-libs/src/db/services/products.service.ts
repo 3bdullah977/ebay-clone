@@ -8,7 +8,6 @@ import { eq, sql } from "drizzle-orm";
 @Injectable()
 export class ProductsService {
   async create(dto: CreateProductDto, sellerId: number) {
-    console.log(dto);
     const {
       title,
       description,
@@ -36,7 +35,24 @@ export class ProductsService {
       offset,
       limit,
       with: {
-        seller: withSeller || {},
+        seller: withSeller
+          ? {
+              columns: {
+                passwordHash: false,
+                createdAt: false,
+                updatedAt: false,
+                hashedRefreshToken: false,
+              },
+            }
+          : {
+              columns: {
+                userId: true,
+                passwordHash: false,
+                createdAt: false,
+                updatedAt: false,
+                hashedRefreshToken: false,
+              },
+            },
       },
     });
   }
@@ -44,9 +60,6 @@ export class ProductsService {
   async findBySellerId(sellerId: number) {
     return await db.query.products.findMany({
       where: eq(products.sellerId, sellerId),
-      with: {
-        seller: true,
-      },
     });
   }
 

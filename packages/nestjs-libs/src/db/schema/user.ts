@@ -29,7 +29,8 @@ export const usersRelations = relations(users, ({ many }) => ({
   carts: many(carts),
   transactions: many(transactions),
   notifications: many(notifications),
-  ratings: many(ratings),
+  sellerRatings: many(ratings, { relationName: "seller_rating" }),
+  buyerRatings: many(ratings, { relationName: "buyer_rating" }),
 }));
 
 export type SelectUser = InferSelectModel<typeof users>;

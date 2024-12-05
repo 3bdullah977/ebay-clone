@@ -8,3 +8,4 @@ config({ path: envPath });
 export const db = drizzle(process.env.DATABASE_URL!, { schema });
 
 export * from "./services";
+export * from "./schema";
