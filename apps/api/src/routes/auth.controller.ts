@@ -48,6 +48,7 @@ export class AuthController {
   }
 
   @Post('logout')
+  @HttpCode(HttpStatus.OK)
   logout(@Req() req) {
     return this.authService.logout(req.user.userId);
   }

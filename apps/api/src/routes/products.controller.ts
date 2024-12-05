@@ -15,6 +15,8 @@ import {
   UseGuards,
   ParseIntPipe,
   Query,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
@@ -55,6 +57,7 @@ export class ProductsController {
 
   @Roles('buyer')
   @Post('search-products')
+  @HttpCode(HttpStatus.OK)
   searchProducts(
     @Query('page', ParseIntPipe) page: number,
     @Query('limit', ParseIntPipe) limit: number,
