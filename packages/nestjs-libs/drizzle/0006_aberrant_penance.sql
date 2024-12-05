@@ -1,0 +1,1 @@
+ALTER TABLE "products" RENAME COLUMN "isBiddable" TO "is_biddable";

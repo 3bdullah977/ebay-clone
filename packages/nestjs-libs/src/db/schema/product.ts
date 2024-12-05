@@ -25,10 +25,10 @@ export const products = pgTable(
     description: text("description").notNull().default(""),
     imageUrl: text("image_url").notNull().default(""),
     price: decimal("price", { precision: 10, scale: 2 }).notNull().default("0"),
-    lowerPound: decimal("price", { precision: 10, scale: 2 })
+    lowerPound: decimal("lower_pound", { precision: 10, scale: 2 })
       .notNull()
       .default("0"),
-    isBiddable: boolean().notNull().default(false),
+    isBiddable: boolean("is_biddable").notNull().default(false),
     bidTimer: timestamp("bid_timer"),
     createdAt: timestamp("created_at", { withTimezone: true }).default(
       sql`CURRENT_TIMESTAMP`

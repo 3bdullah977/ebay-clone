@@ -1,0 +1,1 @@
+ALTER TABLE "products" ADD COLUMN "lower_pound" numeric(10, 2) DEFAULT '0' NOT NULL;

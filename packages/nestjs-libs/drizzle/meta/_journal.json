@@ -43,6 +43,20 @@
       "when": 1733334496384,
       "tag": "0005_productive_the_phantom",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1733401020049,
+      "tag": "0006_aberrant_penance",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1733401742597,
+      "tag": "0007_good_thundra",
+      "breakpoints": true
     }
   ]
 }
