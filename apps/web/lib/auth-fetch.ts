@@ -6,7 +6,7 @@ interface FetchOptions extends RequestInit {
   headers?: Record<string, string>;
 }
 
-export async function authFetch(url: string | URL, options: FetchOptions = {}) {
+export async function authFetch<T = any>(url: string | URL, options: FetchOptions = {}) {
   const session = await getSession();
   const authOptions: FetchOptions = {
     ...options,
@@ -18,7 +18,7 @@ export async function authFetch(url: string | URL, options: FetchOptions = {}) {
     },
   };
 
-  let res = await fetchWrapper(url, authOptions);
+  let res = await fetchWrapper<T>(url, authOptions);
 
   // Handle token refresh for 401 errors
   if (res.status === 401 && session?.refreshToken) {
