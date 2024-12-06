@@ -6,7 +6,7 @@ import {
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
-import { relations, sql } from "drizzle-orm";
+import { InferSelectModel, relations, sql } from "drizzle-orm";
 import { users } from "./user";
 import { products } from "./product";
 import { shipping } from "./shipping";
@@ -44,3 +44,5 @@ export const transactionsRelations = relations(
     shippings: many(shipping),
   })
 );
+
+export type SelectTransactions = InferSelectModel<typeof transactions>;
